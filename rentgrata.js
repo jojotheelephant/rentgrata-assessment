@@ -1,7 +1,6 @@
 "use strict";
 
 const fs = require("fs");
-const { eventNames } = require("process");
 
 // pull data from files
 const eventsData = fs.readFileSync("events.json");
@@ -68,6 +67,7 @@ const formatTimeStringForOutput = (time1, time2) => {
 
 // map through each index and find availability gaps
 const availableTimes = [];
+
 eventsFilteredByUserAndDate.map((event) => {
     let startTimeOfTheDay = new Date(Date.UTC(year, monthIndex, event[0].start_time.getUTCDate(), startOfDayTime));
     let endOfDateTime = new Date(Date.UTC(year, monthIndex, event[0].start_time.getUTCDate(), endOfDayTime));
@@ -87,11 +87,13 @@ eventsFilteredByUserAndDate.map((event) => {
             // if there are availability between events
         } else if (i !== event.length - 1 && event[i].start_time > currentTime) {
             availableTimes.push(formatTimeStringForOutput(event[i].start_time, currentTime));
-        } else {
         }
+        // updates currentTime to latest availability
         currentTime = currentTime > event[i].end_time ? currentTime : event[i].end_time;
     }
+    // add gap between event sections
     availableTimes.push(" ");
 });
 
+// print to console
 console.log(availableTimes.join(" \n"));
