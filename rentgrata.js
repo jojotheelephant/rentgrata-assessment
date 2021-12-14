@@ -1,5 +1,17 @@
 "use strict";
 
+/* 
+code flows as follows: 
+1. Read arguments from console
+2. Get array of IDs of users
+3. Get all requested user events and convert to ISO standard
+4. Sort all events by date and time
+5. Separate events into by date
+6. Iterate through events to search for gaps between events
+7. Format time/date for output
+8. Return formatted availability 
+*/
+
 const fs = require("fs");
 
 // pull data from files
@@ -14,8 +26,8 @@ const args = process.argv.slice(2);
 // returns array of id of corresponding user arguments
 const usersArrayById = [];
 
-for (let i = 0; i < users.length; i++) {
-    for (let j = 0; j < args.length; j++) {
+for (let j = 0; j < args.length; j++) {
+    for (let i = 0; i < users.length; i++) {
         if (users[i].name === args[j]) {
             usersArrayById.push(users[i].id);
         }
